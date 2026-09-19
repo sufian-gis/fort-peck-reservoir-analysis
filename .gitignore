@@ -1,0 +1,36 @@
+# ArcGIS Pro project
+fortpeck_project/
+
+# Source data not included in GitHub
+sentinel data/
+shapefile/
+strm data/
+
+# Original Excel source files
+excel file/fort_peck_data.xlsx
+excel file/inflow_outflow_data.xlsx
+excel file/mean_flow.xlsx
+
+# Excel temporary/lock files
+~$*
+
+# Raster source/processing files
+raster data/T12TYT_cb.tif
+raster data/T13TCN_cb.tif
+raster data/T13TDN_cb.tif
+raster data/T13UCP_cb.tif
+raster data/clippedM_afl.tif
+raster data/mosaic.tif
+raster data/mosaic_0722.tif
+raster data/strm_for_layout.tif
+raster data/strm_mosaic.tif
+
+# Raster auxiliary files
+*.tfw
+*.aux.xml
+*.ovr
+*.xml
+*.vat.cpg
+*.vat.dbf
+*.lock
+*.sr.lock
