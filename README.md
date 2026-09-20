@@ -2,23 +2,95 @@
 
 A GIS, remote sensing, and hydrologic data analysis project focused on **Fort Peck Reservoir, Montana, USA**.
 
-This project integrates **Sentinel-2 satellite imagery, SRTM elevation data, ArcGIS Pro, PostgreSQL/PostGIS, USGS and U.S. Army Corps of Engineers observations, and Excel-based time-series processing** to investigate reservoir characteristics, water extent, terrain, and daily hydrologic observations.
+This project integrates **Sentinel-2 satellite imagery, SRTM elevation data, ArcGIS Pro, PostgreSQL/PostGIS, USGS observations, U.S. Army Corps of Engineers data, and Excel-based time-series processing** to investigate reservoir water extent, terrain, spatial features, and daily hydrologic observations.
+
+The project demonstrates a combination of **remote sensing, raster processing, GIS analysis, spatial database management, and hydrologic time-series processing**.
 
 ---
 
-## Project Overview
+# Project Workflow
 
-The project focuses on:
+The project combines four main components: remote sensing, terrain processing, GIS data preparation, and hydrologic time-series analysis.
 
-* Mapping Fort Peck Reservoir and surrounding features
-* Extracting reservoir water extent from Sentinel-2 imagery using NDWI
-* Preparing a final reservoir boundary through manual GIS editing
-* Processing SRTM elevation data for terrain visualization
-* Preparing GIS layers in ArcGIS Pro and exporting them to a GeoPackage
-* Preparing USGS monitoring station information and metadata
-* Calculating 24-hour mean reservoir inflow and outflow
-* Analyzing reservoir elevation, storage, inflow, outflow, and tailwater elevation
-* Producing maps, charts, raster datasets, and GIS data for portfolio and spatial-analysis purposes
+```text
+Sentinel-2 Imagery
+        ↓
+Mosaic / Composite
+        ↓
+NDWI Calculation
+        ↓
+Water Mask
+        ↓
+Initial Reservoir Polygon
+        ↓
+Manual Editing in ArcGIS Pro
+        ↓
+Final Reservoir Polygon
+        ↓
+GIS Data Preparation
+        ↓
+GeoPackage
+```
+
+```text
+SRTM DEM
+        ↓
+Mosaic
+        ↓
+Projection
+        ↓
+10 m Output Cell Size
+        ↓
+Terrain Visualization
+```
+
+```text
+USGS / Reservoir Observations
+        ↓
+Time-Series Processing
+        ↓
+Define 24-Hour Flow Period
+        ↓
+Calculate Mean Inflow / Mean Outflow
+        ↓
+Match Flow Averages to 11:00 AM Observation
+        ↓
+Daily Observation Dataset
+        ↓
+Charts and Analysis
+```
+
+```text
+PostgreSQL / PostGIS
+        ↓
+USGS Station Preparation
+        ↓
+Spatial Reference and Attribute Preparation
+        ↓
+usgs_station Dataset
+        ↓
+GeoPackage
+```
+
+---
+
+# Project Overview
+
+The project focuses on the spatial and temporal analysis of Fort Peck Reservoir using satellite imagery, elevation data, GIS datasets, and observed hydrologic data.
+
+The main components of the project include:
+
+* Reservoir water extraction from Sentinel-2 imagery
+* NDWI calculation and water-mask generation
+* Manual refinement of the reservoir boundary
+* SRTM DEM processing for terrain visualization
+* GIS data preparation in ArcGIS Pro
+* USGS station preparation using PostgreSQL/PostGIS
+* Export of final GIS datasets to a GeoPackage
+* Processing of reservoir and river observations
+* Calculation of daily 24-hour mean inflow and outflow
+* Analysis of reservoir elevation, storage, inflow, outflow, and tailwater elevation
+* Production of maps, charts, raster datasets, and GIS data for portfolio presentation
 
 ---
 
@@ -30,11 +102,12 @@ The main objectives of this project are to:
 2. Extract the reservoir water boundary using Sentinel-2 imagery and the Normalized Difference Water Index (NDWI).
 3. Improve the automatically extracted water boundary through manual editing in ArcGIS Pro.
 4. Process SRTM DEM data for terrain visualization.
-5. Prepare GIS datasets and export them as a GeoPackage.
-6. Prepare and document USGS monitoring station information.
-7. Calculate daily 24-hour mean inflow and outflow.
-8. Analyze relationships among reservoir elevation, storage, inflow, outflow, and tailwater elevation.
-9. Produce reproducible GIS, remote sensing, and time-series outputs suitable for portfolio presentation.
+5. Prepare GIS datasets for spatial visualization and analysis.
+6. Create and prepare the USGS monitoring station dataset using PostgreSQL/PostGIS.
+7. Combine the GIS datasets into a final GeoPackage.
+8. Calculate daily 24-hour mean inflow and outflow.
+9. Analyze reservoir elevation, storage, inflow, outflow, and tailwater elevation.
+10. Produce reproducible GIS, remote sensing, and time-series outputs suitable for portfolio presentation.
 
 ---
 
@@ -44,7 +117,11 @@ The main objectives of this project are to:
 
 Multiple Sentinel-2 scenes were used for reservoir water extraction and preparation of the reservoir boundary.
 
-The imagery was processed to generate an NDWI raster and an initial water mask representing the reservoir water extent.
+The imagery was processed to generate an **NDWI raster** and an initial water mask representing the reservoir water extent.
+
+The initial water extraction was subsequently reviewed and manually corrected in ArcGIS Pro.
+
+---
 
 ## SRTM
 
@@ -56,7 +133,11 @@ The SRTM datasets were:
 * Projected
 * Resampled to a 10 m output cell size
 
-The 10 m output cell size was selected to align the processed DEM with the 10 m Sentinel-2 grid. This resampling does **not** represent the native spatial resolution of the original SRTM dataset.
+The 10 m output cell size was selected to align the processed DEM with the 10 m Sentinel-2 grid.
+
+This resampling does **not** represent the native spatial resolution of the original SRTM dataset.
+
+---
 
 ## Reservoir and Hydrologic Data
 
@@ -135,17 +216,29 @@ The 10 m cell size was selected for compatibility with the Sentinel-2 spatial gr
 
 # GIS Data Preparation
 
-The main GIS layers were created and prepared in **ArcGIS Pro**.
+The project uses GIS datasets prepared through two complementary workflows.
 
-The final GIS layers were exported to:
+### ArcGIS Pro Workflow
+
+The main spatial layers were created, edited, and prepared in **ArcGIS Pro**.
+
+These include the reservoir boundary and other project GIS layers used for mapping and spatial visualization.
+
+### PostgreSQL / PostGIS Workflow
+
+The `usgs_station` dataset was prepared separately using **PostgreSQL/PostGIS through pgAdmin 4**.
+
+This workflow was used to create and prepare the USGS monitoring station dataset, including its spatial reference and attribute information.
+
+The `usgs_station` dataset was then included in the final GeoPackage along with the other GIS datasets.
+
+The final GIS data are provided as:
 
 ```text
 gis_data/fort_peck.gpkg
 ```
 
-The GeoPackage contains the GIS layers created for the project.
-
-The `usgs_station` dataset is maintained separately and is **not included** in the GeoPackage.
+The GeoPackage contains the project GIS layers, including the **`usgs_station` dataset created using PostgreSQL/PostGIS**.
 
 ---
 
@@ -245,23 +338,23 @@ The original source Excel files and intermediate processing files are **not incl
 
 # Maps
 
-The project contains two final map outputs.
+The project contains two final map outputs, each designed for a different visualization purpose.
 
-### Fort Peck Basemap
+## Fort Peck Basemap
 
 ```text
 maps/fort_peck_basemap.jpg
 ```
 
-The basemap presents the reservoir and surrounding geographic features and terrain context.
+The basemap presents the **Fort Peck Reservoir polygon and other GIS datasets** prepared for the project. It focuses on the main spatial features and does not include terrain visualization.
 
-### Fort Peck Reservoir Map
+## Fort Peck Reservoir Map
 
 ```text
 maps/fort_peck_reservoir.jpg
 ```
 
-The reservoir map presents the reservoir, dam, spillway, river sections, surrounding terrain, and other relevant project features.
+The reservoir map provides a broader spatial view of **Fort Peck Reservoir, the dam, spillway, river sections, surrounding geographic features, and terrain context**. The processed SRTM DEM is used to provide the terrain background for this map.
 
 ---
 
@@ -326,7 +419,7 @@ Final water-mask raster used to prepare the reservoir boundary.
 
 Projected and resampled SRTM DEM used for terrain visualization.
 
-### Git LFS
+## Git LFS
 
 The following large raster files are stored using **Git Large File Storage (Git LFS)**:
 
@@ -339,21 +432,26 @@ projected_srtm.tif
 
 # GIS Data
 
-The project provides a GeoPackage:
+The project provides the final GIS datasets as a GeoPackage:
 
 ```text
 gis_data/fort_peck.gpkg
 ```
 
-The GeoPackage contains the GIS layers created and prepared in ArcGIS Pro.
+The GeoPackage contains the GIS layers prepared for the project.
 
-The `usgs_station` dataset is maintained separately and is not included in the GeoPackage.
+The datasets were produced through two workflows:
+
+* **ArcGIS Pro** — creation, editing, processing, and preparation of the main GIS layers
+* **PostgreSQL/PostGIS** — creation and preparation of the `usgs_station` dataset
+
+The `usgs_station` dataset was created using PostgreSQL/PostGIS through pgAdmin 4 and subsequently included in the final GeoPackage.
 
 ---
 
 # PostgreSQL / PostGIS
 
-The project also includes a PostgreSQL/PostGIS workflow for preparing the USGS station dataset.
+The project includes a PostgreSQL/PostGIS workflow for preparing the USGS station dataset.
 
 SQL file:
 
@@ -361,7 +459,9 @@ SQL file:
 sql query/usgs_station.sql
 ```
 
-This SQL file contains the PostgreSQL/PostGIS workflow used to prepare the USGS station dataset.
+This SQL file contains the PostgreSQL/PostGIS workflow used to create and prepare the `usgs_station` dataset.
+
+The workflow demonstrates the use of a spatial database to manage the USGS monitoring station before incorporating the dataset into the final project GeoPackage.
 
 ---
 
@@ -401,6 +501,27 @@ Projection
 10 m Output Cell Size
    ↓
 Terrain Visualization
+```
+
+## GIS and Spatial Database Workflow
+
+```text
+GIS Layers
+   ↓
+ArcGIS Pro Processing
+   ↓
+Final GIS Layers
+   ↓
+          ┌─────────────────────┐
+          │                     │
+          ↓                     ↓
+   PostgreSQL / PostGIS     ArcGIS Pro
+          ↓                     ↓
+   usgs_station Dataset    Other GIS Layers
+          │                     │
+          └──────────┬──────────┘
+                     ↓
+              Final GeoPackage
 ```
 
 ## Hydrologic Time-Series Workflow
@@ -481,6 +602,7 @@ The project was developed using the following software and technologies:
 * The SRTM DEM was resampled to a **10 m output cell size** to align with the Sentinel-2 grid. This does not represent the native spatial resolution of the original SRTM dataset.
 * Daily mean inflow and outflow represent the defined **24-hour periods ending at 11:00 AM**, rather than simple calendar-day averages.
 * Reservoir elevation, storage, and tailwater elevation were retained at the **11:00 AM observation time**.
+* The `usgs_station` dataset was created using PostgreSQL/PostGIS and is included in the final GeoPackage.
 * The project focuses on GIS, remote sensing, and observational hydrologic data analysis.
 * This project does **not** attempt to perform a full hydraulic or hydrologic model.
 * The original source Excel files and intermediate processing files are not included in the repository.
@@ -493,4 +615,5 @@ The project was developed using the following software and technologies:
 **Md Abu Sufian**
 
 GIS Analyst | Remote Sensing | GIS & Spatial Data Analysis
+
 
